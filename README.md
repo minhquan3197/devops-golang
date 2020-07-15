@@ -1,0 +1,1 @@
+# Docker for Golang and Mongoose
