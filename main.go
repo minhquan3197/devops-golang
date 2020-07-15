@@ -39,7 +39,7 @@ func main() {
 
 	e.GET("/", func(c echo.Context) error {
 		r := &Reply{
-			Response:  "Server is running 2",
+			Response:  "Server is running",
 			Timestamp: time.Now().UTC(),
 			Random:    rand.Intn(1000),
 		}
