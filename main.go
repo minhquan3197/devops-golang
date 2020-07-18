@@ -32,12 +32,6 @@ var (
 func main() {
 	e := echo.New()
 	godotenv.Load()
-	env := os.Getenv("GOLANG_ENV")
-	if env == "production" {
-		godotenv.Load("env/.env.production")
-	} else {
-		godotenv.Load("env/.env.develop")
-	}
 	Port := os.Getenv("APP_PORT")
 	// URI := os.Getenv("DATABASE_URI")
 	URI := "mongodb://mongo:27017/"

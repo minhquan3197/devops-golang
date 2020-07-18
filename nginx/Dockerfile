@@ -13,3 +13,6 @@ RUN apt-get update && apt-get install -y \
 RUN rm /etc/nginx/conf.d/default.conf
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+
+RUN ls -la /etc/nginx/conf.d/

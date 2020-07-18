@@ -1,4 +1,4 @@
-module docker-golang-mongoose
+module devops-golang
 
 go 1.13
 

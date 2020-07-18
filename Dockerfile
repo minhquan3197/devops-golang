@@ -9,8 +9,12 @@ ENV GO111MODULE=on \
 
 # current working directory is /build in the container
 RUN mkdir -p /app
+
 WORKDIR /app
+
 COPY . /app
+
+RUN ls -la /app
 
 # Create binary directory, install glide and fresh
 RUN go get github.com/pilu/fresh
@@ -18,13 +22,9 @@ RUN go get github.com/pilu/fresh
 # download the dependencies
 RUN go mod download
 
-RUN ls -la /app
 
 # Start app
 VOLUME /app
-
-# environment variables for the application
-ENV GOLANG_ENV=develop
 
 # expose the port to run the application on
 EXPOSE 8200

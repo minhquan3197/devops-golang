@@ -1,7 +1,8 @@
 version: "3"
 services:
   web:
-    build: ./nginx
+    container_name: docker_web
+    build: ./nginx/
     volumes:
       - ./nginx:/etc/nginx/conf.d/
       - .:/app
@@ -14,8 +15,6 @@ services:
     build: ./
     volumes:
       - .:/app
-    env_file:
-      - .env.develop
     links:
       - "mongo"
   mongo:
