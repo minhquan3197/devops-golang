@@ -10,6 +10,7 @@ services:
       - "80:80"
     links:
       - "golang"
+      - "jenkins"
   golang:
     container_name: docker_golang
     build: ./
@@ -22,15 +23,4 @@ services:
     container_name: "docker_mongodb"
     ports:
       - "27017:27017"
-  jenkins:
-    image: yallalabs/jenkins:centos
-    environment:
-      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dhudson.footerURL=http://yallalabs.com
-      - JENKINS_USER=admin
-      - JENKINS_PASS=admin
-    ports:
-      - 8500:8500
-    volumes:
-      - jenkins_data:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
     
