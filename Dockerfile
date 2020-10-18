@@ -16,8 +16,6 @@ RUN ls -la /projects
 
 COPY . /projects
 
-RUN ls -la /projects
-
 RUN go get github.com/pilu/fresh
 
 # download the dependencies

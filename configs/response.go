@@ -1,4 +1,4 @@
 package configs
 
-// Global constants
+// Response constants
 const ()
