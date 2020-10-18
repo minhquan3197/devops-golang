@@ -1,5 +1,5 @@
 # create image from the official Go image
-FROM golang:alpine AS builder
+FROM golang:1.14
 
 # golang specific variables
 ENV GO111MODULE=on \
@@ -8,26 +8,23 @@ ENV GO111MODULE=on \
   GOARCH=amd64
 
 # current working directory is /build in the container
-RUN mkdir -p /app
+RUN mkdir -p /server
 
-WORKDIR /app
+WORKDIR /server
 
-COPY . /app
+COPY . /server
 
-RUN ls -la /app
+RUN ls -la /server
 
-# Create binary directory, install glide and fresh
 RUN go get github.com/pilu/fresh
 
 # download the dependencies
 RUN go mod download
 
-
-# Start app
-VOLUME /app
+VOLUME /server
 
 # expose the port to run the application on
 EXPOSE 8200
 
 # serve the app
-ENTRYPOINT ["fresh"]
+ENTRYPOINT [ "fresh" ]

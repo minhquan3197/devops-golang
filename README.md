@@ -1,1 +1,1 @@
-# Docker for Golang and Mongoose
+# Main Golang Project

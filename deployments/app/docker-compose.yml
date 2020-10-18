@@ -1,0 +1,22 @@
+version: "3"
+services:
+  web: # Nginx
+    container_name: docker_web
+    build: ./nginx/
+    volumes:
+      - ./nginx:/etc/nginx/conf.d/
+      - .:/server
+    ports:
+      - "80:80"
+    links:
+      - "kai_golang"
+    restart: always
+  kai_golang: # Golang
+    container_name: docker_golang
+    volumes:
+      - .:/server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /server
+    restart: always
