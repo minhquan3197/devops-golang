@@ -8,20 +8,26 @@ ENV GO111MODULE=on \
   GOARCH=amd64
 
 # current working directory is /build in the container
-RUN mkdir -p /server
+RUN mkdir -p /projects
 
-WORKDIR /server
+WORKDIR /projects
 
-COPY . /server
+RUN ls -la /projects
 
-RUN ls -la /server
+COPY . /projects
+
+RUN ls -la /projects
 
 RUN go get github.com/pilu/fresh
 
 # download the dependencies
 RUN go mod download
 
-VOLUME /server
+VOLUME /projects
+
+WORKDIR /projects/cmd/app
+
+RUN ls -la
 
 # expose the port to run the application on
 EXPOSE 8200

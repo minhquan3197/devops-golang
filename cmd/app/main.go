@@ -31,10 +31,9 @@ var (
 
 func main() {
 	e := echo.New()
-	godotenv.Load()
+	godotenv.Load("../../internal/environments/.env")
 	Port := os.Getenv("APP_PORT")
-	// URI := os.Getenv("DATABASE_URI")
-	URI := "mongodb://mongo:27017/"
+	URI := os.Getenv("DATABASE_URI")
 	ctx := context.Background()
 	c, err := mongo.Connect(ctx, options.Client().ApplyURI(URI))
 	if err != nil {
