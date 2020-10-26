@@ -23,8 +23,6 @@ RUN go mod download
 
 VOLUME /projects
 
-WORKDIR /projects/cmd/app
-
 RUN ls -la
 
 # expose the port to run the application on
