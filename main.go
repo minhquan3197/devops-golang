@@ -30,13 +30,16 @@ var (
 )
 
 func init() {
-	godotenv.Load("../../internal/environments/.env")
+	godotenv.Load("./internal/environments/.env")
 	uri = os.Getenv("DATABASE_URI")
 	database = os.Getenv("DATABASE_PROJECT")
 	port = os.Getenv("APP_PORT")
 }
 
 func main() {
+	fmt.Println("a")
+	fmt.Println(uri)
+	fmt.Println("b")
 	mongodb.ConnectMongoDB(uri, database)
 	seed.All()
 
