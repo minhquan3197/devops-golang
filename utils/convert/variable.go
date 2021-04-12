@@ -27,6 +27,16 @@ func StringToInt64(payload string) (int64, error) {
 	return result, nil
 }
 
+// StringToFloat64 func parse string to float64
+func StringToFloat64(payload string) (float64, error) {
+	var result float64
+	result, err := strconv.ParseFloat(payload, 64)
+	if err != nil {
+		return result, errors.New("Parse failed")
+	}
+	return result, nil
+}
+
 // StringToObjectID func parse string to objectID
 func StringToObjectID(payload string) (primitive.ObjectID, error) {
 	var result primitive.ObjectID

@@ -8,30 +8,28 @@ The Golang service that serve for app golang
 
 All tools required go here. You would require the following tools to develop and run the project:
 
-* Docker
-* Golang
-* Make
+- Docker
+- Golang
+- Make
 
 ### Installation
 
 All installation steps go here.
 
-- Run project 
+- Run project
+
 ```bash
 make start
 ```
 
 - Run project with new build
+
 ```bash
 make build
 ```
 
 - Clear cache and rebuild project
+
 ```bash
 make clear
-```
-
-- Detach docker compose 
-```
-Ctrl + Z
 ```

@@ -1,23 +1,19 @@
 package aws
 
 import (
-	"os"
+	"project-golang/configs"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/joho/godotenv"
 )
-
-func init() {
-	godotenv.Load("../../internal/environments/.env")
-}
 
 // ConnectAwsService function connect AWS service
 func ConnectAwsService() *session.Session {
-	keyID := os.Getenv("AWS_ACCESS_KEY_ID")
-	keyAccess := os.Getenv("AWS_SECRET_ACCESS_KEY")
-	keyRegion := os.Getenv("AWS_REGION")
+	cfg := configs.Load()
+	keyID := cfg.AWS.AccessKeyID
+	keyAccess := cfg.AWS.AccessKeyID
+	keyRegion := cfg.AWS.Region
 	sess, err := session.NewSession(
 		&aws.Config{
 			Region: aws.String(keyRegion),

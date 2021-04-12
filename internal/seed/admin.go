@@ -3,7 +3,6 @@ package seed
 import (
 	"fmt"
 	service "project-golang/pkg/users"
-	structs "project-golang/pkg/users/structs"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -14,7 +13,7 @@ func Admin() {
 	condition := bson.M{"username": adminAccount}
 	_, err := service.FindOne(condition)
 	if err != nil {
-		newAdmin := structs.CreateUser{
+		newAdmin := service.CreateUser{
 			Username: adminAccount,
 			Password: adminAccount,
 		}

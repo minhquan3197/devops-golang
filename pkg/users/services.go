@@ -5,8 +5,10 @@ import (
 	"errors"
 	"project-golang/internal/private/bcrypt"
 	"project-golang/third_party/mongodb"
+	"project-golang/types"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -20,12 +22,17 @@ const (
 	CreateFailed = "Create user failed"
 )
 
+type (
+	userSchema = types.UserSchema
+)
+
 // Create data
-func Create(payload createUser) error {
+func Create(payload CreateUser) error {
 	collection := mongodb.GetDB().Collection("users")
 	hashedPassword := bcrypt.HashPassword(payload.Password)
 	user := userSchema{
 		CreatedAt: time.Now(),
+		UUID:      uuid.New().String(),
 		Password:  hashedPassword,
 		Username:  payload.Username,
 	}
@@ -63,7 +70,7 @@ func Remove(condtion bson.M) error {
 }
 
 // Update data with ID
-func Update(ID primitive.ObjectID, payload updateUser) error {
+func Update(ID primitive.ObjectID, payload UpdateUser) error {
 	collection := mongodb.GetDB().Collection("users")
 	filter := bson.M{"_id": ID}
 	update := bson.M{"$set": bson.M{
@@ -78,10 +85,10 @@ func Update(ID primitive.ObjectID, payload updateUser) error {
 }
 
 // Paginate func get list with paginate
-func Paginate(limit, page int64, search string) (paginateUser, error) {
+func Paginate(limit, page int64, search string) (PaginateUser, error) {
 	collection := mongodb.GetDB().Collection("users")
 	var results []userSchema
-	var resp paginateUser
+	var resp PaginateUser
 	conditionSearch := bson.M{"username": primitive.Regex{Pattern: "^" + search, Options: "i"}}
 	if limit == 0 {
 		limit = 12
@@ -98,7 +105,7 @@ func Paginate(limit, page int64, search string) (paginateUser, error) {
 		log.Errorf("Unable to read the cursor : %v", err)
 		return resp, errors.New(NotFound)
 	}
-	resp = paginateUser{
+	resp = PaginateUser{
 		Data:    results,
 		PerPage: limit,
 		Total:   Count(conditionSearch),

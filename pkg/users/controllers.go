@@ -1,11 +1,10 @@
 package users
 
 import (
-	"net/http"
 	"project-golang/internal/middlewares"
 
-	"project-golang/internal/public/convert"
-	"project-golang/internal/public/response"
+	"project-golang/internal/response"
+	"project-golang/utils/convert"
 
 	"github.com/asaskevich/govalidator"
 	"github.com/labstack/echo/v4"
@@ -23,66 +22,73 @@ func Router(g *echo.Group) {
 }
 
 func list(c echo.Context) error {
+	r := response.EchoResponse(c)
 	page := c.QueryParam("page")
 	limit := c.QueryParam("limit")
 	search := c.QueryParam("search")
 	page64, err := convert.StringToInt64(page)
 	limit64, err := convert.StringToInt64(limit)
 	res, err := Paginate(limit64, page64, search)
+
 	if err != nil {
-		return response.RespData(c, http.StatusBadRequest, err.Error())
+		return r.BadRequest()
 	}
-	return response.RespData(c, http.StatusOK, res)
+	return r.OK(res)
 }
 
 func create(c echo.Context) error {
-	var req createUser
+	r := response.EchoResponse(c)
+	var req CreateUser
 	c.Bind(&req)
 	_, err := govalidator.ValidateStruct(req)
 	if err != nil {
-		return response.RespData(c, http.StatusUnprocessableEntity, err.Error())
+		return r.UnprocessableEntity(err)
 	}
 	err = Create(req)
 	if err != nil {
-		return response.RespData(c, http.StatusBadRequest, err.Error())
+		return r.BadRequest()
 	}
-	return response.RespData(c, http.StatusOK, nil)
+	return r.Created()
 }
 
 func detail(c echo.Context) error {
+	r := response.EchoResponse(c)
 	id := c.Param("id")
 	objectID, err := convert.StringToObjectID(id)
 	res, err := FindOne(bson.M{"_id": objectID})
 	if err != nil {
-		return response.RespData(c, http.StatusBadRequest, err.Error())
+		return r.BadRequest()
 	}
-	return response.RespData(c, http.StatusOK, res)
+	return r.OK(res)
 }
 
 func update(c echo.Context) error {
+	r := response.EchoResponse(c)
 	id := c.Param("id")
-	var req updateUser
+	var req UpdateUser
 	c.Bind(&req)
 	_, err := govalidator.ValidateStruct(req)
 	if err != nil {
-		return response.RespData(c, http.StatusUnprocessableEntity, err.Error())
+		return r.UnprocessableEntity(err)
 	}
 	objectID, err := convert.StringToObjectID(id)
 	err = Update(objectID, req)
 	if err != nil {
-		return response.RespData(c, http.StatusBadRequest, err.Error())
+		return r.BadRequest()
 	}
-	return response.RespData(c, http.StatusOK, nil)
+	return r.OK(nil)
 }
 
 func remove(c echo.Context) error {
+	r := response.EchoResponse(c)
 	id := c.Param("id")
 	objectID, _ := convert.StringToObjectID(id)
 	Remove(bson.M{"_id": objectID})
-	return response.RespData(c, http.StatusOK, nil)
+	return r.NoContet()
 }
 
 func info(c echo.Context) error {
+	r := response.EchoResponse(c)
 	user := c.Get("user")
-	return response.RespData(c, http.StatusOK, user)
+	return r.OK(user)
 }

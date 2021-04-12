@@ -1,4 +1,4 @@
-package structs
+package auth
 
 // RequestLogin login user
 type RequestLogin struct {

@@ -1,4 +1,6 @@
-package structs
+package users
+
+import "project-golang/types"
 
 // UpdateUser struct
 type UpdateUser struct {
@@ -13,7 +15,7 @@ type CreateUser struct {
 
 // PaginateUser struct
 type PaginateUser struct {
-	Data    []UserSchema `json:"data"`
-	PerPage int64        `json:"perPage"`
-	Total   int64        `json:"total"`
+	Data    []types.UserSchema `json:"data"`
+	PerPage int64              `json:"perPage"`
+	Total   int64              `json:"total"`
 }

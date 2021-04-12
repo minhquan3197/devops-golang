@@ -7,8 +7,9 @@ import (
 	"project-golang/internal/private/bcrypt"
 	"project-golang/internal/private/jwt"
 	"project-golang/third_party/mongodb"
+	"project-golang/types"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -19,8 +20,12 @@ const (
 	Unauthorized = "Unauthorized"
 )
 
+type (
+	userSchema = types.UserSchema
+)
+
 // Login func login for user
-func Login(req requestLogin) (string, error) {
+func Login(req RequestLogin) (string, error) {
 	var token string
 	res, err := FindUserWithUsername(req.Username)
 	if err != nil {
