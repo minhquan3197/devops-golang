@@ -1,8 +1,7 @@
-package api
+package routers
 
 import (
-	auth "project-golang/pkg/auth"
-	users "project-golang/pkg/users"
+	"project-golang/internal/controllers"
 
 	"github.com/labstack/echo/v4"
 )
@@ -12,6 +11,6 @@ func Router(e *echo.Echo) {
 
 	api := e.Group("/api/v1")
 
-	auth.Router(api)
-	users.Router(api)
+	controllers.RouterAuth(api)
+	controllers.RouterUser(api)
 }

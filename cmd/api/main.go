@@ -1,14 +1,14 @@
-package rest
+package api
 
 import (
 	"encoding/json"
 	"fmt"
 	"math/rand"
 	"net/http"
-	"project-golang/api"
 	"project-golang/configs"
-	"project-golang/internal/seed"
-	"project-golang/third_party/mongodb"
+	"project-golang/migrations"
+	"project-golang/pkg/mongodb"
+	"project-golang/routers"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -41,7 +41,7 @@ func init() {
 func Excute() {
 	fmt.Println(uri)
 	mongodb.ConnectMongoDB(uri, database)
-	seed.All()
+	migrations.All()
 
 	e := echo.New()
 	e.Use(
@@ -62,7 +62,7 @@ func Excute() {
 	})
 
 	e.Pre(APIVersion)
-	api.Router(e)
+	routers.Router(e)
 
 	e.Logger.Fatal(e.Start(":" + port))
 }

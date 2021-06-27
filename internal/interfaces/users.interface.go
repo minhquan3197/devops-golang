@@ -1,6 +1,6 @@
-package users
+package interfaces
 
-import "project-golang/types"
+import "project-golang/internal/models"
 
 // UpdateUser struct
 type UpdateUser struct {
@@ -15,7 +15,7 @@ type CreateUser struct {
 
 // PaginateUser struct
 type PaginateUser struct {
-	Data    []types.UserSchema `json:"data"`
-	PerPage int64              `json:"perPage"`
-	Total   int64              `json:"total"`
+	Data    []models.UserSchema `json:"data"`
+	PerPage int64               `json:"perPage"`
+	Total   int64               `json:"total"`
 }

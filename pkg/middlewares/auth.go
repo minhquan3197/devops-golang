@@ -1,9 +1,9 @@
 package middlewares
 
 import (
-	"project-golang/internal/private/jwt"
-	"project-golang/internal/response"
-	authService "project-golang/pkg/auth"
+	"project-golang/internal/services"
+	"project-golang/pkg/jwt"
+	"project-golang/pkg/response"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -12,10 +12,6 @@ import (
 // AuthMiddleware func
 func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		// Connect S3, if use, open it
-		// awsS3 := s3.ConnectAws()
-		// c.Set("s3", awsS3)
-
 		r := response.EchoResponse(c)
 
 		hToken := c.Request().Header.Get("Authorization")
@@ -28,8 +24,8 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		if results == nil {
 			return r.Unauthorized()
 		}
-
-		result, err := authService.FindUserWithUsername(results["token"].(string))
+		username := results["token"].(string)
+		result, err := services.FindUserByUsername(username)
 
 		if err != nil {
 			return r.Unauthorized()

@@ -1,4 +1,4 @@
-package seed
+package migrations
 
 // All func
 func All() {

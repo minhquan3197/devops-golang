@@ -1,6 +1,8 @@
-# Main Golang Project
+# My boilerplate project
 
-The Golang service that serve for app golang
+Refrain from extra layers of nesting because the ergonomics of Go are such that one flat package.
+
+Look at other projects for inspiration, but don’t dogmatically follow every pattern you see. Keep it simple, stupid.
 
 ## Getting Started
 

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"project-golang/cmd/rest"
+	"project-golang/cmd/api"
 )
 
 func main() {
-	rest.Excute()
+	api.Excute()
 }
