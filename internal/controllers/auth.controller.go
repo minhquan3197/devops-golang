@@ -1,9 +1,9 @@
 package controllers
 
 import (
+	"project-golang/api/response"
 	"project-golang/internal/interfaces"
 	"project-golang/internal/services"
-	"project-golang/pkg/response"
 
 	"github.com/asaskevich/govalidator"
 	"github.com/labstack/echo/v4"

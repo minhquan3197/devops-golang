@@ -15,7 +15,7 @@ func Admin() {
 			Username: adminAccount,
 			Password: adminAccount,
 		}
-		services.RegisterUser(newAdmin)
+		services.Register(newAdmin)
 		fmt.Println("Seed admin complete")
 	}
 }

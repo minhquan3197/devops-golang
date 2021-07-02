@@ -1,9 +1,9 @@
 package middlewares
 
 import (
+	"project-golang/api/response"
 	"project-golang/internal/services"
 	"project-golang/pkg/jwt"
-	"project-golang/pkg/response"
 	"strings"
 
 	"github.com/labstack/echo/v4"

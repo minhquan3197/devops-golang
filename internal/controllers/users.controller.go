@@ -1,11 +1,11 @@
 package controllers
 
 import (
+	"project-golang/api/middlewares"
+	"project-golang/api/response"
 	"project-golang/internal/interfaces"
 	"project-golang/internal/services"
 	"project-golang/pkg/convert"
-	"project-golang/pkg/middlewares"
-	"project-golang/pkg/response"
 
 	"github.com/asaskevich/govalidator"
 	"github.com/labstack/echo/v4"
@@ -43,7 +43,7 @@ func create(c echo.Context) error {
 	if err != nil {
 		return r.UnprocessableEntity(err)
 	}
-	err = services.RegisterUser(req)
+	err = services.Register(req)
 	if err != nil {
 		return r.BadRequest()
 	}

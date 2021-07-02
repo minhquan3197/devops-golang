@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"project-golang/api/routers"
 	"project-golang/configs"
 	"project-golang/migrations"
 	"project-golang/pkg/mongodb"
-	"project-golang/routers"
 	"time"
 
 	"github.com/joho/godotenv"
