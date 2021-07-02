@@ -11,9 +11,12 @@ import (
 	"project-golang/pkg/mongodb"
 	"time"
 
+	_ "project-golang/docs"
+
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 // Reply Log
@@ -30,20 +33,22 @@ var (
 )
 
 func init() {
-	godotenv.Load("./environments/.env")
+	godotenv.Load(".env")
 	cfg := configs.Load()
 	uri = cfg.DatabaseUri
 	database = cfg.DatabaseProject
 	port = cfg.Port
 }
 
-// Excute func
 func Excute() {
 	fmt.Println(uri)
 	mongodb.ConnectMongoDB(uri, database)
 	migrations.All()
 
 	e := echo.New()
+
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
+
 	e.Use(
 		middleware.Recover(),
 		middleware.Logger(),

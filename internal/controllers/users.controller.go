@@ -13,7 +13,7 @@ import (
 
 // Router func
 func RouterUser(g *echo.Group) {
-	g.GET("/users", list, middlewares.AuthMiddleware)
+	g.GET("/users", list)
 	g.POST("/users", create, middlewares.AuthMiddleware)
 	g.GET("/users/:id", detail, middlewares.AuthMiddleware)
 	g.PUT("/users/:id", update, middlewares.AuthMiddleware)

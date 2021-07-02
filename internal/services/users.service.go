@@ -14,12 +14,9 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var (
-	userRepository *repositories.UserRepositoryMongo
-)
-
-func init() {
-	userRepository = repositories.NewUserRepositoryMongo(mongodb.GetDB(), models.UsersCollection)
+func userRepository() *repositories.UserRepositoryMongo {
+	userRepository := repositories.NewUserRepositoryMongo(mongodb.GetDB(), models.UsersCollection)
+	return userRepository
 }
 
 // Register func create new user
@@ -29,7 +26,7 @@ func Register(payload interfaces.CreateUser) error {
 		Username: payload.Username,
 		Password: bcrypt.HashPassword(payload.Password),
 	}
-	err := userRepository.Save(user)
+	err := userRepository().Save(user)
 	if err != nil {
 		return errors.New(constants.UserCreatedFailed)
 	}
@@ -49,11 +46,11 @@ func PaginateUsers(limit, page int64, search string) (interfaces.PaginateUser, e
 	findOptions := options.Find()
 	findOptions.SetLimit(limit)
 	findOptions.SetSkip(limit * (page - 1))
-	results, err := userRepository.FindAll(conditionSearch, findOptions)
+	results, err := userRepository().FindAll(conditionSearch, findOptions)
 	if err != nil {
 		return resp, errors.New(constants.UserQueryIncorrect)
 	}
-	countUser, err := userRepository.Count(conditionSearch)
+	countUser, err := userRepository().Count(conditionSearch)
 	if err != nil {
 		return resp, errors.New(constants.UserQueryIncorrect)
 	}
@@ -67,7 +64,7 @@ func PaginateUsers(limit, page int64, search string) (interfaces.PaginateUser, e
 
 // FindUserByUsername func find user by username
 func FindUserByUsername(username string) (models.UserSchema, error) {
-	result, err := userRepository.FindByUsername(username)
+	result, err := userRepository().FindByUsername(username)
 	if err != nil {
 		return result, errors.New(constants.UserNotFound)
 	}
@@ -76,7 +73,7 @@ func FindUserByUsername(username string) (models.UserSchema, error) {
 
 // FindUserByID func find user by uuid
 func FindUserByID(uuid string) (models.UserSchema, error) {
-	result, err := userRepository.FindByID(uuid)
+	result, err := userRepository().FindByID(uuid)
 	if err != nil {
 		return result, errors.New(constants.UserNotFound)
 	}
@@ -89,7 +86,7 @@ func UpdateUserByID(uuid string, payload interfaces.UpdateUser) error {
 	user = &models.UserSchema{
 		Username: payload.Username,
 	}
-	err := userRepository.Update(uuid, user)
+	err := userRepository().Update(uuid, user)
 	if err != nil {
 		return errors.New(constants.UserNotFound)
 	}
@@ -98,7 +95,7 @@ func UpdateUserByID(uuid string, payload interfaces.UpdateUser) error {
 
 // RemoveUserByID func update user by uuid
 func RemoveUserByID(uuid string) error {
-	err := userRepository.Delete(uuid)
+	err := userRepository().Delete(uuid)
 	if err != nil {
 		return errors.New(constants.UserNotFound)
 	}
