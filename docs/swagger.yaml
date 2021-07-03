@@ -1,5 +1,12 @@
 basePath: /api/v1
 definitions:
+  interfaces.CreateUser:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
   interfaces.RequestLogin:
     properties:
       password:
@@ -7,6 +14,11 @@ definitions:
         type: string
       username:
         example: admin
+        type: string
+    type: object
+  interfaces.UpdateUser:
+    properties:
+      username:
         type: string
     type: object
   response.EchoR:
@@ -71,6 +83,155 @@ paths:
       summary: Login user.
       tags:
       - Auth
+  /users:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: string
+      - description: Search name
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.EchoR'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.EchoR'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all users
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create user
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/interfaces.CreateUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.EchoR'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.EchoR'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.EchoR'
+      security:
+      - ApiKeyAuth: []
+      summary: Create user
+      tags:
+      - Users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID User
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.EchoR'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.EchoR'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete user
+      tags:
+      - Users
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID User
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.EchoR'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.EchoR'
+      security:
+      - ApiKeyAuth: []
+      summary: Get detail user
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Update user
+        in: body
+        name: update
+        required: true
+        schema:
+          $ref: '#/definitions/interfaces.UpdateUser'
+      - description: ID User
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.EchoR'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.EchoR'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.EchoR'
+      security:
+      - ApiKeyAuth: []
+      summary: Update user
+      tags:
+      - Users
 securityDefinitions:
   ApiKeyAuth:
     in: header

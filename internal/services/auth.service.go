@@ -17,7 +17,7 @@ type (
 // Login func login for user
 func Login(req requestLogin) (string, error) {
 	var token string
-	res, err := FindUserByUsername(req.Username)
+	res, err := FindUserByUsernameLogin(req.Username)
 	if err != nil {
 		return token, err
 	}

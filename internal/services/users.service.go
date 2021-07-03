@@ -71,6 +71,15 @@ func FindUserByUsername(username string) (models.UserSchema, error) {
 	return result, nil
 }
 
+// FindUserByUsername func find user by username
+func FindUserByUsernameLogin(username string) (models.UserSchema, error) {
+	result, err := userRepository().FindByUsernameLogin(username)
+	if err != nil {
+		return result, errors.New(constants.UserNotFound)
+	}
+	return result, nil
+}
+
 // FindUserByID func find user by uuid
 func FindUserByID(uuid string) (models.UserSchema, error) {
 	result, err := userRepository().FindByID(uuid)
@@ -86,7 +95,7 @@ func UpdateUserByID(uuid string, payload interfaces.UpdateUser) error {
 	user = &models.UserSchema{
 		Username: payload.Username,
 	}
-	err := userRepository().Update(uuid, user)
+	err := userRepository().UpdateInfo(uuid, user)
 	if err != nil {
 		return errors.New(constants.UserNotFound)
 	}
@@ -95,7 +104,7 @@ func UpdateUserByID(uuid string, payload interfaces.UpdateUser) error {
 
 // RemoveUserByID func update user by uuid
 func RemoveUserByID(uuid string) error {
-	err := userRepository().Delete(uuid)
+	err := userRepository().DeleteByID(uuid)
 	if err != nil {
 		return errors.New(constants.UserNotFound)
 	}
