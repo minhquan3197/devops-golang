@@ -40,8 +40,17 @@ func init() {
 	port = cfg.Port
 }
 
+func healCheck(c echo.Context) error {
+	r := &Reply{
+		Response:  "Server is running",
+		Timestamp: time.Now().UTC(),
+		Random:    rand.Intn(1000),
+	}
+	sr, _ := json.Marshal(r)
+	return c.String(http.StatusOK, string(sr))
+}
+
 func Excute() {
-	fmt.Println(uri)
 	mongodb.ConnectMongoDB(uri, database)
 	migrations.All()
 
@@ -56,15 +65,7 @@ func Excute() {
 		middleware.CORS(),
 	)
 
-	e.GET("/", func(c echo.Context) error {
-		r := &Reply{
-			Response:  "Server is running",
-			Timestamp: time.Now().UTC(),
-			Random:    rand.Intn(1000),
-		}
-		sr, _ := json.Marshal(r)
-		return c.String(http.StatusOK, string(sr))
-	})
+	e.GET("/", healCheck)
 
 	e.Pre(APIVersion)
 	routers.Router(e)

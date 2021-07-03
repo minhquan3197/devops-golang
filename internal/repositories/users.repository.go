@@ -58,18 +58,28 @@ func (r *UserRepositoryMongo) Delete(id string) error {
 
 func (r *UserRepositoryMongo) FindByID(id string) (User, error) {
 	var user User
-	err := r.db.Collection(r.collection).FindOne(context.TODO(), bson.M{"_id": id}).Decode(&user)
+	projection := bson.M{"password": 0}
+	err := r.db.Collection(r.collection).FindOne(
+		context.TODO(),
+		bson.M{"_id": id},
+		options.FindOne().SetProjection(projection)).Decode(&user)
 	return user, err
 }
 
 func (r *UserRepositoryMongo) FindByUsername(username string) (User, error) {
 	var user User
-	err := r.db.Collection(r.collection).FindOne(context.TODO(), bson.M{"username": username}).Decode(&user)
+	projection := bson.M{"password": 0}
+	err := r.db.Collection(r.collection).FindOne(
+		context.TODO(),
+		bson.M{"username": username},
+		options.FindOne().SetProjection(projection)).Decode(&user)
 	return user, err
 }
 
 func (r *UserRepositoryMongo) FindAll(condition bson.M, options *options.FindOptions) ([]User, error) {
 	var users []User
+	projection := bson.M{"password": 0}
+	options.SetProjection(projection)
 	pointer, err := r.db.Collection(r.collection).Find(context.TODO(), condition, options)
 	err = pointer.All(context.TODO(), &users)
 	return users, err

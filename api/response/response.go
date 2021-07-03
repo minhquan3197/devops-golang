@@ -2,6 +2,7 @@ package response
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -37,9 +38,11 @@ func (r EchoR) NotFound() error {
 }
 
 func (r EchoR) UnprocessableEntity(err error) error {
+	validateErrors := strings.Split(err.Error(), ";")
 	r.Code = 422
-	r.Msg = err.Error()
-	return r.c.JSON(http.StatusNotFound, r)
+	r.Msg = validateErrors[0]
+	r.Data = validateErrors
+	return r.c.JSON(http.StatusUnprocessableEntity, r)
 }
 
 func (r EchoR) Err(err error) error {

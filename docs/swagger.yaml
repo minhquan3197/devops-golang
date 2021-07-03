@@ -1,4 +1,79 @@
+basePath: /api/v1
+definitions:
+  interfaces.RequestLogin:
+    properties:
+      password:
+        example: admin
+        type: string
+      username:
+        example: admin
+        type: string
+    type: object
+  response.EchoR:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      msg:
+        type: string
+    type: object
+host: localhost:8200
 info:
-  contact: {}
-paths: {}
+  contact:
+    name: API Support
+  description: This is a sample server.
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /auth/info:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.EchoR'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.EchoR'
+      security:
+      - ApiKeyAuth: []
+      summary: Get info user by token.
+      tags:
+      - Auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Login payload
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/interfaces.RequestLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.EchoR'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.EchoR'
+      summary: Login user.
+      tags:
+      - Auth
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
