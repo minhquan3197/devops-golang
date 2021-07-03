@@ -21,17 +21,11 @@ All installation steps go here.
 - Run project
 
 ```bash
-make start
+make dev
 ```
 
-- Run project with new build
+- Build swagger
 
 ```bash
-make build
-```
-
-- Clear cache and rebuild project
-
-```bash
-make clear
+make swag
 ```
