@@ -25,9 +25,13 @@ func (r EchoR) Unauthorized() error {
 	return r.c.JSON(http.StatusUnauthorized, r)
 }
 
-func (r EchoR) BadRequest() error {
+func (r EchoR) BadRequest(err string) error {
 	r.Code = 400
-	r.Msg = "Bad Request"
+	if err == "" {
+		r.Msg = "Bad Request"
+	} else {
+		r.Msg = err
+	}
 	return r.c.JSON(http.StatusBadRequest, r)
 }
 

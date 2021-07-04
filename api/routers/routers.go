@@ -12,5 +12,6 @@ func Router(e *echo.Echo) {
 	api := e.Group("/api/v1")
 
 	controllers.RouterAuth(api)
+	controllers.RouterUpload(api)
 	controllers.RouterUser(api)
 }

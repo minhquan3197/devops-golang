@@ -83,6 +83,30 @@ paths:
       summary: Login user.
       tags:
       - Auth
+  /upload:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: File payload
+        in: formData
+        name: upload
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.EchoR'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.EchoR'
+      summary: Upload file
+      tags:
+      - Upload
   /users:
     get:
       consumes:
@@ -129,8 +153,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
             $ref: '#/definitions/response.EchoR'
         "400":

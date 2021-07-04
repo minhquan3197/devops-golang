@@ -41,7 +41,7 @@ func list(c echo.Context) error {
 	res, err := services.PaginateUsers(limit64, page64, search)
 
 	if err != nil {
-		return r.BadRequest()
+		return r.BadRequest(err.Error())
 	}
 	return r.OK(res)
 }
@@ -66,7 +66,7 @@ func create(c echo.Context) error {
 	}
 	err = services.Register(req)
 	if err != nil {
-		return r.BadRequest()
+		return r.BadRequest(err.Error())
 	}
 	return r.Created()
 }
@@ -114,7 +114,7 @@ func update(c echo.Context) error {
 	}
 	err = services.UpdateUserByID(user.ID, req)
 	if err != nil {
-		return r.BadRequest()
+		return r.BadRequest(err.Error())
 	}
 	return r.OK(nil)
 }
@@ -132,11 +132,11 @@ func remove(c echo.Context) error {
 	r := response.EchoResponse(c)
 	user, err := services.FindUserByID(c.Param("id"))
 	if err != nil {
-		return r.BadRequest()
+		return r.BadRequest(err.Error())
 	}
 	err = services.RemoveUserByID(user.ID)
 	if err != nil {
-		return r.BadRequest()
+		return r.BadRequest(err.Error())
 	}
 	return r.NoContet()
 }
