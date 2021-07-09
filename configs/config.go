@@ -5,7 +5,6 @@ import (
 )
 
 type EnvConfig struct {
-	ServerMode      string
 	Port            string
 	DatabaseUri     string
 	DatabaseProject string
@@ -14,7 +13,6 @@ type EnvConfig struct {
 
 func Load() EnvConfig {
 	cfg := EnvConfig{
-		ServerMode:      os.Getenv("SERVER_MODE"),
 		Port:            os.Getenv("APP_PORT"),
 		DatabaseUri:     os.Getenv("DATABASE_URI"),
 		DatabaseProject: os.Getenv("DATABASE_PROJECT"),

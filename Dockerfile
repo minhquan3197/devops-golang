@@ -7,26 +7,26 @@ ENV GO111MODULE=on \
   GOOS=linux \
   GOARCH=amd64
 
-# current working directory is /build in the container
+# Current working directory is /build in the container
 RUN mkdir -p /projects
 
+# Set the Current Working Directory inside the container
 WORKDIR /projects
 
-RUN ls -la /projects
+# Copy go mod and sum files
+COPY go.mod go.sum ./
 
-COPY . /projects
-
-RUN go get github.com/pilu/fresh
-
-# download the dependencies
+# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download
 
-VOLUME /projects
+# Copy the source from the current directory to the Working Directory inside the container
+COPY . .
 
-RUN ls -la
+# Build the Go app
+RUN go build -o main .
 
-# expose the port to run the application on
+# Expose the port to run the application on
 EXPOSE 8200
 
-# serve the app
-ENTRYPOINT [ "fresh" ]
+# Command to run the executable
+CMD ["./main"]

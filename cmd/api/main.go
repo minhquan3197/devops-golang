@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"os"
 	"project-golang/api/routers"
 	"project-golang/configs"
 	"project-golang/migrations"
@@ -33,7 +34,9 @@ var (
 )
 
 func init() {
-	godotenv.Load(".env")
+	env := os.Getenv("GOLANG_ENV")
+	fmt.Println(env)
+	godotenv.Load()
 	cfg := configs.Load()
 	uri = cfg.DatabaseUri
 	database = cfg.DatabaseProject
